@@ -19,7 +19,7 @@ class UserController extends GetxController {
       isLoading(true);
       var userList = await userService.getUsers();
       users.assignAll(userList);
-        } finally {
+    } finally {
       isLoading(false);
     }
   }
@@ -27,7 +27,8 @@ class UserController extends GetxController {
   void addUser(User user) async {
     try {
       await userService.addUser(user);
-      fetchUsers();
+      users.add(user);
+      // fetchUsers();
     } catch (e) {
       Get.snackbar('Error', 'Could not add user');
     }
@@ -36,7 +37,10 @@ class UserController extends GetxController {
   void editUser(int id, User user) async {
     try {
       await userService.editUser(id, user);
-      fetchUsers();
+      int index = users.indexWhere((u) => u.id == id);
+      if (index != -1) {
+        users[index] = user;
+      }
     } catch (e) {
       Get.snackbar('Error', 'Could not edit user');
     }
@@ -45,7 +49,7 @@ class UserController extends GetxController {
   void deleteUser(int id) async {
     try {
       await userService.deleteUser(id);
-      fetchUsers();
+      users.removeWhere((u) => u.id == id);
     } catch (e) {
       Get.snackbar('Error', 'Could not delete user');
     }
