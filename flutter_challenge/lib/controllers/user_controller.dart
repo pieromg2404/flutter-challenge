@@ -18,10 +18,8 @@ class UserController extends GetxController {
     try {
       isLoading(true);
       var userList = await userService.getUsers();
-      if (userList != null) {
-        users.assignAll(userList);
-      }
-    } finally {
+      users.assignAll(userList);
+        } finally {
       isLoading(false);
     }
   }
